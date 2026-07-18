@@ -3,6 +3,14 @@
 @tailwind utilities;
 
 @layer base {
+
+  html {
+      scroll-behavior: smooth;
+  }
+  section {
+    scroll-margin-top: 100px;
+  }
+
   :root {
     --background: 60 20% 97%;
     --foreground: 0 0% 7%;

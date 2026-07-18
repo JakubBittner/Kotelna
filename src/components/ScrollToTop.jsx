@@ -1,16 +1,6 @@
 import { useEffect } from "react";
 import { useLocation, useNavigationType } from "react-router-dom";
 
-const getHashId = (hash) => {
-  const rawId = hash.slice(1);
-
-  try {
-    return decodeURIComponent(rawId);
-  } catch {
-    return rawId;
-  }
-};
-
 export default function ScrollToTop() {
   const { pathname, hash } = useLocation();
   const navigationType = useNavigationType();
@@ -19,14 +9,23 @@ export default function ScrollToTop() {
     if (navigationType === "POP") return;
 
     if (hash) {
-      const id = getHashId(hash);
+      const id = hash.replace("#", "");
       const timer = window.setTimeout(() => {
-        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-      }, 50);
+        const element = document.getElementById(id);
+        if (element) {
+          // Získání pozice elementu
+          const top = element.getBoundingClientRect().top + window.scrollY;
+          // Odčítáme 100px kvůli fixnímu navbaru (uprav si podle potřeby)
+          window.scrollTo({ 
+            top: top - 100, 
+            behavior: "smooth" 
+          });
+        }
+      }, 150); // Mírně prodloužená prodleva pro jistotu
       return () => window.clearTimeout(timer);
+    } else {
+      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     }
-
-    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   }, [pathname, hash, navigationType]);
 
   return null;

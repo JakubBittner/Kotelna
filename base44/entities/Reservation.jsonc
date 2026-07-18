@@ -1,0 +1,74 @@
+{
+  "name": "Reservation",
+  "type": "object",
+  "properties": {
+    "reservation_type": {
+      "type": "string",
+      "title": "Typ",
+      "enum": [
+        "stul",
+        "bowling",
+        "sipky"
+      ],
+      "default": "stul"
+    },
+    "party_size": {
+      "type": "number",
+      "title": "Po\u010det osob",
+      "default": 2
+    },
+    "zone": {
+      "type": "string",
+      "title": "Z\u00f3na",
+      "enum": [
+        "kotelna",
+        "terasa",
+        "drahy"
+      ],
+      "default": "kotelna"
+    },
+    "date": {
+      "type": "string",
+      "title": "Datum",
+      "format": "date"
+    },
+    "time": {
+      "type": "string",
+      "title": "\u010cas"
+    },
+    "duration_hours": {
+      "type": "number",
+      "title": "D\u00e9lka (h)",
+      "default": 2
+    },
+    "status": {
+      "type": "string",
+      "title": "Stav",
+      "enum": [
+        "ceka",
+        "schvaleno",
+        "zruseno"
+      ],
+      "default": "ceka"
+    },
+    "notes": {
+      "type": "string",
+      "title": "Pozn\u00e1mka"
+    },
+    "contact_name": {
+      "type": "string",
+      "title": "Jm\u00e9no kontaktu"
+    },
+    "contact_phone": {
+      "type": "string",
+      "title": "Telefon"
+    }
+  },
+  "required": [
+    "reservation_type",
+    "date",
+    "time",
+    "contact_name",
+    "contact_phone"
+  ]
+}

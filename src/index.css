@@ -1,0 +1,121 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 60 20% 97%;
+    --foreground: 0 0% 7%;
+    --card: 60 20% 98%;
+    --card-foreground: 0 0% 7%;
+    --popover: 60 20% 98%;
+    --popover-foreground: 0 0% 7%;
+    --primary: 36 30% 61%;
+    --primary-foreground: 60 20% 97%;
+    --secondary: 60 10% 92%;
+    --secondary-foreground: 0 0% 7%;
+    --muted: 60 10% 93%;
+    --muted-foreground: 0 0% 35%;
+    --accent: 36 30% 61%;
+    --accent-foreground: 0 0% 7%;
+    --destructive: 0 65% 45%;
+    --destructive-foreground: 60 20% 97%;
+    --border: 36 18% 82%;
+    --input: 36 18% 82%;
+    --ring: 36 30% 50%;
+    --gold: 36 30% 61%;
+    --gold-dark: 33 24% 44%;
+    --ink: 0 0% 7%;
+    --cream: 60 20% 97%;
+    --radius: 0.125rem;
+    --font-heading: 'Playfair Display', ui-serif, Georgia, serif;
+    --font-body: 'Lato', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Playfair Display', ui-serif, Georgia, serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  }
+
+  .dark {
+    --background: 0 0% 7%;
+    --foreground: 60 20% 97%;
+    --card: 0 0% 9%;
+    --card-foreground: 60 20% 97%;
+    --popover: 0 0% 9%;
+    --popover-foreground: 60 20% 97%;
+    --primary: 36 30% 61%;
+    --primary-foreground: 0 0% 7%;
+    --secondary: 0 0% 14%;
+    --secondary-foreground: 60 20% 97%;
+    --muted: 0 0% 14%;
+    --muted-foreground: 0 0% 64%;
+    --accent: 36 30% 61%;
+    --accent-foreground: 0 0% 97%;
+    --destructive: 0 62% 40%;
+    --destructive-foreground: 60 20% 97%;
+    --border: 0 0% 18%;
+    --input: 0 0% 18%;
+    --ring: 36 30% 61%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+    letter-spacing: 0.01em;
+    line-height: 1.7;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  ::selection {
+    background: hsl(var(--gold) / 0.25);
+    color: hsl(var(--ink));
+  }
+
+  :focus-visible {
+    outline: 2px dotted hsl(var(--gold-dark));
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  .eyebrow {
+    @apply font-body text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground;
+  }
+
+  .ghost-btn {
+    @apply relative inline-flex items-center justify-center gap-2 border border-border px-7 py-3
+           font-body text-[0.72rem] uppercase tracking-[0.18em] text-foreground transition-all duration-500
+           hover:border-gold-dark hover:text-gold-dark;
+  }
+
+  .ghost-btn-gold {
+    @apply relative inline-flex items-center justify-center gap-2 border border-gold-dark px-7 py-3
+           font-body text-[0.72rem] uppercase tracking-[0.18em] text-gold-dark transition-all duration-500
+           hover:bg-gold-dark hover:text-cream;
+  }
+
+  .hairline {
+    @apply h-px w-full bg-border;
+  }
+
+  .hairline-gold {
+    @apply h-px w-full bg-gold/50;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

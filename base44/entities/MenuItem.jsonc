@@ -1,0 +1,55 @@
+{
+  "name": "MenuItem",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "title": "N\u00e1zev"
+    },
+    "description": {
+      "type": "string",
+      "title": "Popis"
+    },
+    "price": {
+      "type": "number",
+      "title": "Cena (K\u010d)"
+    },
+    "category": {
+      "type": "string",
+      "title": "Kategorie",
+      "enum": [
+        "polevka",
+        "predkrm",
+        "hlavni_jidlo",
+        "dezert",
+        "napoj"
+      ],
+      "default": "hlavni_jidlo"
+    },
+    "is_daily": {
+      "type": "boolean",
+      "title": "Denn\u00ed menu",
+      "default": false
+    },
+    "is_available": {
+      "type": "boolean",
+      "title": "Dostupn\u00e9",
+      "default": true
+    },
+    "image_url": {
+      "type": "string",
+      "title": "Obr\u00e1zek",
+      "format": "uri"
+    },
+    "sort_order": {
+      "type": "number",
+      "title": "Po\u0159ad\u00ed",
+      "default": 0
+    }
+  },
+  "required": [
+    "name",
+    "price",
+    "category"
+  ]
+}

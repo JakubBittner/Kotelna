@@ -1,0 +1,38 @@
+{
+  "name": "DeliveryAddress",
+  "type": "object",
+  "properties": {
+    "label": {
+      "type": "string",
+      "title": "Ozna\u010den\u00ed",
+      "default": "Dom\u016f"
+    },
+    "street": {
+      "type": "string",
+      "title": "Ulice a \u010d\u00edslo"
+    },
+    "city": {
+      "type": "string",
+      "title": "M\u011bsto",
+      "default": "Opava"
+    },
+    "zip": {
+      "type": "string",
+      "title": "PS\u010c"
+    },
+    "phone": {
+      "type": "string",
+      "title": "Telefon"
+    },
+    "notes": {
+      "type": "string",
+      "title": "Pozn\u00e1mka pro kur\u00fdra"
+    }
+  },
+  "required": [
+    "street",
+    "city",
+    "zip",
+    "phone"
+  ]
+}

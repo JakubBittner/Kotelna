@@ -1,0 +1,53 @@
+{
+  "name": "Order",
+  "type": "object",
+  "properties": {
+    "items": {
+      "type": "array",
+      "title": "Polo\u017eky",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "quantity": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "total": {
+      "type": "number",
+      "title": "Celkem (K\u010d)"
+    },
+    "status": {
+      "type": "string",
+      "title": "Stav",
+      "enum": [
+        "prijato",
+        "pripravuje_se",
+        "na_cesta",
+        "doruceno",
+        "zruseno"
+      ],
+      "default": "prijato"
+    },
+    "delivery_address": {
+      "type": "string",
+      "title": "Doru\u010dovac\u00ed adresa"
+    },
+    "notes": {
+      "type": "string",
+      "title": "Pozn\u00e1mka"
+    }
+  },
+  "required": [
+    "items",
+    "total",
+    "status"
+  ]
+}

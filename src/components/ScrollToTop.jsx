@@ -1,32 +1,43 @@
 import { useEffect } from "react";
-import { useLocation, useNavigationType } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+
+const forceSmoothScroll = (targetTop, duration = 600) => {
+  const startY = window.scrollY;
+  const distance = targetTop - startY;
+  let startTime = null;
+
+  const animation = (currentTime) => {
+    if (startTime === null) startTime = currentTime;
+    const timeElapsed = currentTime - startTime;
+    const progress = Math.min(timeElapsed / duration, 1);
+    const ease = 1 - Math.pow(1 - progress, 4); 
+    window.scrollTo(0, startY + distance * ease);
+    if (timeElapsed < duration) {
+      requestAnimationFrame(animation);
+    }
+  };
+  requestAnimationFrame(animation);
+};
 
 export default function ScrollToTop() {
   const { pathname, hash } = useLocation();
-  const navigationType = useNavigationType();
 
   useEffect(() => {
-    if (navigationType === "POP") return;
-
     if (hash) {
       const id = hash.replace("#", "");
-      const timer = window.setTimeout(() => {
+      const timer = setTimeout(() => {
         const element = document.getElementById(id);
         if (element) {
-          // Získání pozice elementu
-          const top = element.getBoundingClientRect().top + window.scrollY;
-          // Odčítáme 100px kvůli fixnímu navbaru (uprav si podle potřeby)
-          window.scrollTo({ 
-            top: top - 100, 
-            behavior: "smooth" 
-          });
+          const top = element.getBoundingClientRect().top + window.scrollY - 100;
+          // Zde voláme naši vynucenou funkci
+          forceSmoothScroll(top, 600);
         }
-      }, 150); // Mírně prodloužená prodleva pro jistotu
-      return () => window.clearTimeout(timer);
+      }, 150);
+      return () => clearTimeout(timer);
     } else {
-      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+      forceSmoothScroll(0, 500);
     }
-  }, [pathname, hash, navigationType]);
+  }, [pathname, hash]);
 
   return null;
 }

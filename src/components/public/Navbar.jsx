@@ -10,6 +10,30 @@ const navLinks = [
   { label: "Kontakt", to: "/#kontakt" },
 ];
 
+// Naše vlastní neprůstřelná scrollovací funkce
+const forceSmoothScroll = (targetTop, duration = 600) => {
+  const startY = window.scrollY;
+  const distance = targetTop - startY;
+  let startTime = null;
+
+  const animation = (currentTime) => {
+    if (startTime === null) startTime = currentTime;
+    const timeElapsed = currentTime - startTime;
+    const progress = Math.min(timeElapsed / duration, 1);
+    
+    // Easing funkce (aby to na konci hezky zpomalilo)
+    const ease = 1 - Math.pow(1 - progress, 4); 
+    
+    window.scrollTo(0, startY + distance * ease);
+
+    if (timeElapsed < duration) {
+      requestAnimationFrame(animation);
+    }
+  };
+
+  requestAnimationFrame(animation);
+};
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -22,32 +46,30 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => {
-    setOpen(false);
-  }, [location]);
-
   const isHome = location.pathname === '/';
   const isLightBg = scrolled || open || !isHome;
 
-  // Pomocná funkce pro plynulé scrollování
-  const handleHashClick = (e, to) => {
+  const handleNavClick = (e, to) => {
+    e.preventDefault(); 
+    setOpen(false); 
+
     if (to.includes('#')) {
       const hash = to.split('#')[1];
-      const element = document.getElementById(hash);
       
-      if (element) {
-        e.preventDefault();
-        // Pokud jsme na domovské, jen plynule sroluj
-        if (isHome) {
-          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        } else {
-          // Pokud nejsme na domovské, jdi na domovskou a pak sroluj
-          navigate('/');
-          setTimeout(() => {
-            document.getElementById(hash)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }, 100);
+      if (isHome) {
+        const element = document.getElementById(hash);
+        if (element) {
+          const top = element.getBoundingClientRect().top + window.scrollY - 100;
+          // Zde voláme naši vynucenou funkci
+          forceSmoothScroll(top, 600);
+          window.history.pushState(null, '', `/#${hash}`);
         }
+      } else {
+        navigate(`/#${hash}`);
       }
+    } else {
+      navigate(to);
+      forceSmoothScroll(0, 500);
     }
   };
 
@@ -62,6 +84,7 @@ export default function Navbar() {
       <nav className="mx-auto flex max-w-[1400px] items-center justify-between px-6 md:px-12">
         <Link 
           to="/" 
+          onClick={(e) => { e.preventDefault(); forceSmoothScroll(0, 600); navigate('/'); }}
           className={`font-heading text-3xl md:text-4xl tracking-[0.15em] uppercase transition-colors duration-300 ${
             isLightBg ? "text-foreground" : "text-[hsl(var(--cream))]"
           }`} 
@@ -71,16 +94,16 @@ export default function Navbar() {
 
         <div className="hidden items-center gap-10 md:flex">
           {navLinks.map((l) => (
-            <Link
+            <a
               key={l.label}
-              to={l.to}
-              onClick={(e) => handleHashClick(e, l.to)}
-              className={`font-body text-[0.85rem] font-medium uppercase tracking-[0.15em] transition-colors duration-300 hover:text-[hsl(var(--gold))] ${
+              href={l.to}
+              onClick={(e) => handleNavClick(e, l.to)}
+              className={`cursor-pointer font-body text-[0.85rem] font-medium uppercase tracking-[0.15em] transition-colors duration-300 hover:text-[hsl(var(--gold))] ${
                 isLightBg ? "text-muted-foreground" : "text-[hsl(var(--cream))]/80"
               }`}
             >
               {l.label}
-            </Link>
+            </a>
           ))}
           <Link 
             to="/rezervace" 
@@ -108,16 +131,16 @@ export default function Navbar() {
         <div className="border-t border-border bg-[hsl(var(--cream))] md:hidden mt-4">
           <div className="flex flex-col px-6 py-4">
             {navLinks.map((l) => (
-              <Link 
+              <a 
                 key={l.label} 
-                to={l.to}
-                onClick={(e) => handleHashClick(e, l.to)}
+                href={l.to}
+                onClick={(e) => handleNavClick(e, l.to)}
                 className="py-4 font-body text-sm font-medium uppercase tracking-[0.15em] border-b border-border/60 text-muted-foreground hover:text-[hsl(var(--gold-dark))]"
               >
                 {l.label}
-              </Link>
+              </a>
             ))}
-            <Link to="/rezervace" className="py-4 font-body text-sm font-bold uppercase tracking-[0.15em] text-[hsl(var(--gold-dark))] hover:text-foreground">
+            <Link onClick={() => setOpen(false)} to="/rezervace" className="py-4 font-body text-sm font-bold uppercase tracking-[0.15em] text-[hsl(var(--gold-dark))] hover:text-foreground">
               Rezervace
             </Link>
           </div>

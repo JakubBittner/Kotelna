@@ -15,7 +15,8 @@ export default function Hero() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/80" />
       </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-[1400px] px-6 pt-32 md:px-12">
+      {/* Tady jsme smazali pt-32 a přidali -mt-20 md:-mt-40 pro posun nahoru */}
+      <div className="relative z-10 mx-auto w-full max-w-[1400px] px-6 md:px-12 -mt-20 md:-mt-52">
         <div className="max-w-3xl">
           <p className="eyebrow text-[hsl(var(--cream))]/80 animate-fade-up opacity-0" style={{ animationDelay: "0.3s" }}>
             Restaurace · Opava
